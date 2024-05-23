@@ -17,6 +17,9 @@ var server = http.createServer(function (req, res) {
   var path = parseUrl.pathname;
   var trimmedPath = path.replace(/^\/+|\/+$/g, "");
 
+  // Get the query string as an object
+  var queryStringObject = parseUrl.query;
+
   // Get the HTTP Method
   var method = req.method.toLowerCase();
 
@@ -25,11 +28,16 @@ var server = http.createServer(function (req, res) {
 
   // Log the request path
   console.log(
-    "Request received on path: " + trimmedPath + " with method: " + method
+    "Request received on path: " +
+      trimmedPath +
+      " with method: " +
+      method +
+      " and with these query string parameters",
+    queryStringObject
   );
 });
 
-// Start the server, and have it listen on port 65535
-server.listen(65535, function () {
-  console.log("The server is listening on port 65535 now");
+// Start the server, and have it listen on port 7777
+server.listen(7777, function () {
+  console.log("The server is listening on port 7777 now");
 });
