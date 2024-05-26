@@ -5,8 +5,10 @@
 
 // Dependecies
 var http = require("http");
+const { StringDecoder } = require("string_decoder");
 //const http = require('http');
 var url = require("url");
+var StringDecorder = require("string_decoder").StringDecoder;
 
 // The server should respond to all requests with a string
 var server = http.createServer(function (req, res) {
@@ -26,20 +28,30 @@ var server = http.createServer(function (req, res) {
   // Get the headers as an object
   var headers = req.headers;
 
-  // Send the response
-  res.end("Hello World\n");
+  // Get the payload, if any
+  var decoder = new StringDecoder("utf-8");
+  var buffer = "";
+  req.on("data", function (data) {
+    buffer += decoder.write(data);
+  });
+  req.on("end", function () {
+    buffer += decoder.end();
+    // Send the response
+    res.end("Hello World\n");
 
-  // Log the request path
-  console.log(
-    "Request received on path: " +
-      trimmedPath +
-      " with method: " +
-      method +
-      " and with these query string parameters",
-    queryStringObject,
-    " and with these headers",
-    headers
-  );
+    // Log the request path
+    console.log(
+      "Request received on path: " + trimmedPath,
+      "\nwith method: " + method,
+      "\nand with these query string parameters: ",
+      // queryStringObject,
+      JSON.stringify(queryStringObject, null, 2),
+      "\nand with these headers:\n ",
+      headers,
+      "\nand with these payload:\n ",
+      buffer
+    );
+  });
 });
 
 // Start the server, and have it listen on port 7777
