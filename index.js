@@ -144,6 +144,12 @@ handlers.ping = function (data, callback) {
   callback(200);
 };
 
+// Sample handler
+handlers.hello = function (data, callback) {
+  // Callback a http status code, and a payload object
+  callback(200, { name: "welcome to Hello World", 2: "2" });
+};
+
 // Not found handler
 handlers.notFound = function (data, callback) {
   callback(404);
@@ -153,4 +159,5 @@ handlers.notFound = function (data, callback) {
 var router = {
   // sample: handlers.sample,
   ping: handlers.ping,
+  hello: handlers.hello,
 };
