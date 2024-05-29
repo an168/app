@@ -12,6 +12,22 @@ var url = require("url");
 var StringDecorder = require("string_decoder").StringDecoder;
 var config = require("./config");
 var fs = require("fs");
+// var _data = require("./lib/data");
+
+// TESTING
+// @TODO delete this
+// _data.delete("test", "newfile", function (err) {
+//   console.log("this was the error", err);
+// });
+// _data.update("test", "newfile", { fizz: "buzz" }, function (err) {
+//   console.log("this was the error", err);
+// });
+// _data.read("test", "newfile1", function (err, data) {
+//   console.log("this was the error", err, "and ths was the data", data);
+// });
+// _data.create("test", "newfile", { foo: "bar" }, function (err) {
+//   console.log("this was the error", err);
+// });
 
 // Instantiate the HTTP server
 var httpServer = http.createServer(function (req, res) {
