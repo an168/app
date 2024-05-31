@@ -5,29 +5,14 @@
 
 // Dependecies
 var http = require("http");
-var https = require("https");
-const { StringDecoder } = require("string_decoder");
 //const http = require('http');
+var https = require("https");
 var url = require("url");
-var StringDecorder = require("string_decoder").StringDecoder;
-var config = require("./config");
+var StringDecoder = require("string_decoder").StringDecoder;
+var config = require("./lib/config");
 var fs = require("fs");
-// var _data = require("./lib/data");
-
-// TESTING
-// @TODO delete this
-// _data.delete("test", "newfile", function (err) {
-//   console.log("this was the error", err);
-// });
-// _data.update("test", "newfile", { fizz: "buzz" }, function (err) {
-//   console.log("this was the error", err);
-// });
-// _data.read("test", "newfile1", function (err, data) {
-//   console.log("this was the error", err, "and ths was the data", data);
-// });
-// _data.create("test", "newfile", { foo: "bar" }, function (err) {
-//   console.log("this was the error", err);
-// });
+var handlers = require("./lib/handlers");
+var helpers = require("./lib/helpers");
 
 // Instantiate the HTTP server
 var httpServer = http.createServer(function (req, res) {
@@ -105,7 +90,7 @@ var unifiedServer = function (req, res) {
       queryStringObject: queryStringObject,
       method: method,
       headers: headers,
-      payload: buffer,
+      payload: helpers.parseJsonToObject(buffer),
     };
 
     // Route the request to the handler specificed
@@ -145,35 +130,8 @@ var unifiedServer = function (req, res) {
   });
 };
 
-// Define the handler
-var handlers = {};
-
-// // Sample handler
-// handlers.sample = function (data, callback) {
-//   // Callback a http status code, and a payload object
-//   callback(406, { name: "sample handler" });
-// };
-
-// Sample handler
-handlers.ping = function (data, callback) {
-  // Callback a http status code, and a payload object
-  callback(200);
-};
-
-// Sample handler
-handlers.hello = function (data, callback) {
-  // Callback a http status code, and a payload object
-  callback(200, { name: "welcome to Hello World", 2: "2" });
-};
-
-// Not found handler
-handlers.notFound = function (data, callback) {
-  callback(404);
-};
-
 // Define a request router
 var router = {
-  // sample: handlers.sample,
   ping: handlers.ping,
-  hello: handlers.hello,
+  users: handlers.users,
 };
